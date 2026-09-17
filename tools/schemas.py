@@ -1,0 +1,27 @@
+def _s(name,description,properties=None,required=None):return {"type":"function","function":{"name":name,"description":description,"parameters":{"type":"object","properties":properties or {},"required":required or []}}}
+def p(type,description,**kwargs):return {"type":type,"description":description,**kwargs}
+TOOLS=[
+_s("list_available_apps","List the safe application names V6 can launch and whether optional apps are installed."),
+_s("open_app","Open a supported safe Windows application. Call list_available_apps when unsure.",{"app":p("string","Supported app name.")},["app"]),
+_s("open_website","Open an HTTP/HTTPS site in the default browser.",{"url":p("string","Website URL.")},["url"]),
+_s("open_private_browser","Open an HTTP/HTTPS site in Edge InPrivate, only when explicitly requested.",{"url":p("string","Website URL.")},["url"]),
+_s("open_workspace_file","Open an existing workspace file, such as created HTML.",{"path":p("string","Relative workspace path.")},["path"]),
+_s("keyboard_action","Type, press a key, or use a hotkey in the focused desktop window.",{"action":p("string","type, press, or hotkey",enum=["type","press","hotkey"]),"text":p("string","Typed text or plus-separated hotkey."),"key":p("string","Key to press.")},["action"]),
+_s("mouse_action","Move, click, or scroll the desktop. Prefer DOM browser tools for web pages.",{"action":p("string","move, click, scroll",enum=["move","click","scroll"]),"x":p("integer","Screen x."),"y":p("integer","Screen y."),"clicks":p("integer","Number of clicks."),"button":p("string","Mouse button."),"amount":p("integer","Scroll amount.")},["action"]),
+_s("take_screenshot","Capture desktop state for later vision analysis; it is not interpreted by this model."),
+_s("list_workspace","List workspace files and folders.",{"path":p("string","Relative directory, default dot.")}),
+_s("read_workspace_file","Read a UTF-8 workspace file.",{"path":p("string","Relative path.")},["path"]),
+_s("write_workspace_file","Create or overwrite a UTF-8 workspace file.",{"path":p("string","Relative path."),"content":p("string","Full text file content.")},["path","content"]),
+_s("append_workspace_file","Append UTF-8 text to a workspace file.",{"path":p("string","Relative path."),"content":p("string","Text to add.")},["path","content"]),
+_s("replace_workspace_text","Replace one exact unique text section in a workspace file. Read it first.",{"path":p("string","Relative path."),"old_text":p("string","Exact existing text; it must occur once."),"new_text":p("string","Replacement text.")},["path","old_text","new_text"]),
+_s("create_workspace_directory","Create a workspace directory.",{"path":p("string","Relative directory.")},["path"]),
+_s("initialize_workspace_repository","Initialize a local Git repository for the V6 project. This never creates a remote, commits, or sends data."),
+_s("workspace_repository_status","Read the local V6 project Git working-tree status."),
+_s("web_search","Search the web for current information. Inspect results and favor authoritative sources.",{"query":p("string","Search query.")},["query"]),
+_s("browser_open","Open a page in headed Playwright and return compact DOM text.",{"url":p("string","HTTP/HTTPS URL.")},["url"]),
+_s("browser_read_page","Read compact visible DOM text from Playwright."),
+_s("browser_click","Click a CSS selector in Playwright. Never bypass CAPTCHA, auth, or human verification.",{"selector":p("string","CSS selector.")},["selector"]),
+_s("browser_type","Type into a CSS selector in Playwright; never enter passwords.",{"selector":p("string","CSS selector."),"text":p("string","Text."),"clear":p("boolean","Replace content, default true.")},["selector","text"]),
+_s("browser_wait","Wait briefly for a selector or page delay.",{"selector":p("string","Optional CSS selector."),"milliseconds":p("integer","0-10000 ms.")}),
+_s("browser_inspect_elements","List compact links and form controls on the Playwright page for selector planning."),
+_s("browser_press_key","Press a browser key such as Enter, Tab, Escape, or Control+L.",{"key":p("string","Playwright key name.")},["key"]),]
