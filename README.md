@@ -1,4 +1,4 @@
-# Local AI Agent V6
+# Local AI Agent
 
 V6 is a lightweight, local Windows computer-use agent. It runs the decision loop through Ollama using `qwen3:1.7b`; the model chooses tools, reads their results, and continues until it can complete the requested task or reaches the safety step limit.
 
